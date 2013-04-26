@@ -10,4 +10,5 @@ class MozblogHttpsItem(Item):
     # name = Field()
     iframe = Field()
     image = Field() 
+    script = Field()
     url = Field()

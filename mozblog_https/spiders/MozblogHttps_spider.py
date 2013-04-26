@@ -5,9 +5,9 @@ from mozblog_https.items import MozblogHttpsItem
 
 class MozblogHttpsSpider(CrawlSpider):
     name = "mozblog"
-    allowed_domains = ["127.0.0.1"]
+    allowed_domains = ["blog.mozilla.org"]
     start_urls = [
-        "http://127.0.0.1:8080"
+        "https://blog.mozilla.org"
     ]
     rules = [
         Rule(SgmlLinkExtractor(allow=()), follow=True, callback='parse_start_url')
@@ -28,14 +28,12 @@ class MozblogHttpsSpider(CrawlSpider):
         # Find http Iframe
         item['iframe'] = hxs.select('//iframe[contains(@src, "http://")]/@src').extract()
 
+        # Find http Script
+        item['script'] = hxs.select('//script[contains(@src, "http://")]/@src').extract()        
+
         # Found anything bad, if so add to list
-        if item['image'] or item['iframe']:
+        if item['image'] or item['iframe'] or item['script']:
             item['url'] = response.url 
             items.append(item)
 
         return items
-
-# Find images
-# Find iframe
-# Find embed?
-# Find scripts
