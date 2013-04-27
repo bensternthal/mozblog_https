@@ -7,15 +7,11 @@ class MozblogHttpsSpider(CrawlSpider):
     name = "mozblog"
     allowed_domains = ["blog.mozilla.org"]
     start_urls = [
-        "https://blog.mozilla.org"
+        "https://blog.mozilla.org/"
     ]
     rules = [
         Rule(SgmlLinkExtractor(allow=()), follow=True, callback='parse_start_url')
     ]  
-
-    # scrapy is weird
-    # def parse_start_url(self, response):
-    #     list(self.parse_item(response))
 
     def parse_start_url(self, response):
         hxs = HtmlXPathSelector(response)
